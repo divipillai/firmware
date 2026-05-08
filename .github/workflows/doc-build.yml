@@ -71,6 +71,16 @@ jobs:
         run: |
           sphinx-build -M html . build
 
+      - name: Check version
+        run: |
+          if [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
+            VERSION="latest"
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            VERSION="pr-${{ github.event.number }}"
+          fi
+          echo "VERSION=${VERSION}"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
       - name: Prepare Azure upload
         run: |
           PUBLISH="$PWD/publish"
