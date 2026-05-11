@@ -73,7 +73,10 @@ jobs:
 
       - name: Check version
         run: |
-          if [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
+          VERSION_REGEX="^v([0-9a-zA-Z\.\-]+)$"
+          if [[ ${GITHUB_REF#refs/tags/} =~ $VERSION_REGEX ]]; then
+            VERSION=${BASH_REMATCH[1]}
+          elif [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
             VERSION="latest"
           elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
             VERSION="pr-${{ github.event.number }}"
