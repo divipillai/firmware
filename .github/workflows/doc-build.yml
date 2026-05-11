@@ -73,10 +73,7 @@ jobs:
 
       - name: Check version
         run: |
-          VERSION_REGEX="^v([0-9a-zA-Z\.\-]+)$"
-          if [[ ${GITHUB_REF#refs/tags/} =~ $VERSION_REGEX ]]; then
-            VERSION=${BASH_REMATCH[1]}
-          elif [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
+          if [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
             VERSION="latest"
           elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
             VERSION="pr-${{ github.event.number }}"
@@ -97,7 +94,7 @@ jobs:
             echo "publish2 dev PR-${{ github.event.number }} ${ARCHIVE}" > "${MONITOR}"
             echo "${{ github.event.number }}" > pr.txt
           else
-            ARCHIVE="legacy-addon-aliro-${VERSION}.zip"
+            ARCHIVE="legacy-addon-thingy91x_oob-${VERSION}.zip"
             echo "publish2 main ${VERSION} ${ARCHIVE}" > "${MONITOR}"
           fi
 
